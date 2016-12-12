@@ -1,0 +1,5 @@
+#pragma once
+#define ID_EXIT 2000
+#define ID_SWAP_MOUSE_BUTTONS 2001
+#define ID_SWITCH_MOUSE_WHEEL_TILT_MODE 2002
+#define ID_DO_NOTHING 2003

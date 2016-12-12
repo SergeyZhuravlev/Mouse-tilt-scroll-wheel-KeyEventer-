@@ -1,2 +1,2 @@
 # KeyEventer
-Some improvment for multibuttons mouse
+Some improvement for multi button mouse
