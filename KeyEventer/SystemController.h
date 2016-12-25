@@ -15,6 +15,6 @@ public:
 private:
 	HWND _applicationHWindow;
 	HINSTANCE _applicationHInstance;
-	bool _mouseWheelTiltMode;
+	bool _mouseWheelTiltMode=true;
 };
 
