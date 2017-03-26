@@ -1,2 +1,2 @@
 # KeyEventer
-Some improvement for multi button mouse
+Allowed scroll video on mouse with tilting scroll-whell
