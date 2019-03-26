@@ -133,12 +133,12 @@ LRESULT SystemEventer::WindowProc(/*bool initialized,*/ HWND hWnd, UINT message,
 		/*if (initialized)
 		{*/
 			LRESULT result;
-			bool handled = Linq::from(_registeredEventers).any([&](auto eventer)
+			bool handled = std::find_if(std::cbegin(_registeredEventers), std::cend(_registeredEventers), [&](auto eventer)
 			{
 				bool handled;
 				tie(result, handled) = eventer->SystemEventsHandler(hWnd, message, wParam, lParam);
 				return handled;
-			});
+			}) != std::cend(_registeredEventers);
 			if (handled)
 				return result;
 		//}

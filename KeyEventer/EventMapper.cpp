@@ -13,20 +13,40 @@ EventMapper::~EventMapper()
 {
 }
 
-void EventMapper::raiseMouseEvent(MouseButtonsState mouseButtonState)
+void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalButtonState, MouseButtonsState mouseButtonState, MouseWheelState mouseWheelState)
 {
-	switch (mouseButtonState)
+	if (!_systemController()->GetMouseWheelTiltMode())
+		return;
+	switch (mouseAdditionalButtonState)
 	{
 	case WheelLeft:
-		if (_systemController()->GetMouseWheelTiltMode())
-			_executer->SendKey(VK_LEFT);
+		_executer->SendKey(VK_LEFT);
 		break;
 	case WheelRight:
-		if (_systemController()->GetMouseWheelTiltMode())
 		_executer->SendKey(VK_RIGHT);
 		break;
 	default:;
 	}
+	switch (mouseButtonState)
+	{
+	case RI_MOUSE_WHEEL:
+		if (_systemController()->GetIsForwardStref() && mouseWheelState < 0)
+			_systemController()->SetStref(false);
+		if (_systemController()->GetIsBackwardStref() && mouseWheelState > 0)
+			_systemController()->SetStref(true);
+		break;
+	case RI_MOUSE_MIDDLE_BUTTON_DOWN:
+		_systemController()->SetStref(true);
+		break;
+	case RI_MOUSE_MIDDLE_BUTTON_UP:
+		_systemController()->SetStref(false);
+		break;
+	default:;
+	}
+	if (_systemController()->GetIsForwardStref())
+		_executer->SendKey(VK_RIGHT);
+	if (_systemController()->GetIsBackwardStref())
+		_executer->SendKey(VK_LEFT);
 }
 
 void EventMapper::raiseTrayEvent(TrayEvent trayEvent)

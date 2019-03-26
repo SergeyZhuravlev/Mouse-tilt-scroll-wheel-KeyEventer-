@@ -9,7 +9,7 @@ class EventMapper :
 public:
 	EventMapper(std::shared_ptr<ISettings> settings, std::shared_ptr<IExecuter> executer, std::function<std::shared_ptr<ISystemController>()> systemControllerGetter);
 	~EventMapper();
-	void raiseMouseEvent(MouseButtonsState mouseButtonState) override;
+	void raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalButtonState, MouseButtonsState mouseButtonState, MouseWheelState mouseWheelState) override;
 	void raiseTrayEvent(TrayEvent trayEvent) override;
 
 private:

@@ -18,7 +18,9 @@
 #include <memory.h>
 #include <memory>
 #include <tchar.h>
-#include <CppLinq.h>
+#include <functional>
+#include <algorithm>
+//#include <CppLinq.h>
 #include <thread>
 #include <assert.h>
 #include "resource.h"

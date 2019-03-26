@@ -63,5 +63,6 @@ std::pair<LRESULT, bool> MouseEventer::SystemEventsHandler(HWND hWnd, UINT messa
 
 void MouseEventer::MouseHandler(RAWINPUT* rawInput)
 {
-	_eventMapper->raiseMouseEvent(rawInput->data.mouse.ulButtons);
+	const auto& mouse = rawInput->data.mouse;
+	_eventMapper->raiseMouseEvent(mouse.ulButtons, mouse.usButtonFlags, mouse.usButtonData);
 }
