@@ -36,17 +36,22 @@ bool SystemController::GetMouseWheelTiltMode()
 	return _mouseWheelTiltMode;
 }
 
-void SystemController::SetStref(std::optional<bool> forward)
+void SystemController::SetStrefDirection(bool forward)
 {
 	_strefIsForward = forward;
 }
 
+void SystemController::SetStrefEnabled(bool enabled)
+{
+	_strefEnabled = enabled;
+}
+
 bool SystemController::GetIsForwardStref() const
 {
-	return _strefIsForward.value_or(false);
+	return _strefEnabled && _strefIsForward;
 }
 
 bool SystemController::GetIsBackwardStref() const
 {
-	return !_strefIsForward.value_or(true);
+	return _strefEnabled && !_strefIsForward;
 }

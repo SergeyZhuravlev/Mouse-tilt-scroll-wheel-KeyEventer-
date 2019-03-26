@@ -15,6 +15,8 @@ EventMapper::~EventMapper()
 
 void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalButtonState, MouseButtonsState mouseButtonState, MouseWheelState mouseWheelState)
 {
+	if (0 == mouseAdditionalButtonState && 0 == mouseButtonState && 0 == mouseWheelState)
+		return;
 	if (!_systemController()->GetMouseWheelTiltMode())
 		return;
 	switch (mouseAdditionalButtonState)
@@ -31,15 +33,15 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 	{
 	case RI_MOUSE_WHEEL:
 		if (_systemController()->GetIsForwardStref() && mouseWheelState < 0)
-			_systemController()->SetStref(false);
+			_systemController()->SetStrefDirection(false);
 		if (_systemController()->GetIsBackwardStref() && mouseWheelState > 0)
-			_systemController()->SetStref(true);
+			_systemController()->SetStrefDirection(true);
 		break;
 	case RI_MOUSE_MIDDLE_BUTTON_DOWN:
-		_systemController()->SetStref(true);
+		_systemController()->SetStrefEnabled(true);
 		break;
 	case RI_MOUSE_MIDDLE_BUTTON_UP:
-		_systemController()->SetStref(false);
+		_systemController()->SetStrefEnabled(false);
 		break;
 	default:;
 	}

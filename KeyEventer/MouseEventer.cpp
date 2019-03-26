@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MouseEventer.h"
+#include <sstream>
 
 using namespace std;
 
@@ -64,5 +65,18 @@ std::pair<LRESULT, bool> MouseEventer::SystemEventsHandler(HWND hWnd, UINT messa
 void MouseEventer::MouseHandler(RAWINPUT* rawInput)
 {
 	const auto& mouse = rawInput->data.mouse;
+	/*std::stringstream ss;
+	ss << __FUNCDNAME__ << std::endl;
+	ss << "{" << std::endl;
+	ss << "mouse.usFlags" << mouse.usFlags << std::endl;
+	ss << "mouse.ulButtons" << mouse.ulButtons << std::endl;
+	ss << "mouse.usButtonFlags" << mouse.usButtonFlags << std::endl;
+	ss << "mouse.usButtonData" << mouse.usButtonData << std::endl;
+	ss << "mouse.ulRawButtons" << mouse.ulRawButtons << std::endl;
+	ss << "mouse.lLastX" << mouse.lLastX << std::endl;
+	ss << "mouse.lLastY" << mouse.lLastY << std::endl;
+	ss << "mouse.ulExtraInformation" << mouse.ulExtraInformation << std::endl;
+	ss << "}" << std::endl;
+	OutputDebugString(ss.str().c_str());*/
 	_eventMapper->raiseMouseEvent(mouse.ulButtons, mouse.usButtonFlags, mouse.usButtonData);
 }

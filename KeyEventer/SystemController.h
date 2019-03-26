@@ -1,6 +1,5 @@
 #pragma once
 #include "ISystemController.h"
-#include <optional>
 class SystemController :
 	public ISystemController
 {
@@ -12,7 +11,8 @@ public:
 	HINSTANCE ApplicationHInstance() override;
 	void SetMouseWheelTiltMode(bool arrowKeys) override;
 	bool GetMouseWheelTiltMode() override;
-	void SetStref(std::optional<bool> forward) override;
+	void SetStrefEnabled(bool enabled) override;
+	void SetStrefDirection(bool forward) override;
 	bool GetIsForwardStref() const override;
 	bool GetIsBackwardStref() const override;
 
@@ -20,7 +20,7 @@ private:
 	HWND _applicationHWindow;
 	HINSTANCE _applicationHInstance;
 	bool _mouseWheelTiltMode=true;
-	std::optional<bool> _strefIsForward;
-
+	bool _strefIsForward=true;
+	bool _strefEnabled = false;
 };
 
