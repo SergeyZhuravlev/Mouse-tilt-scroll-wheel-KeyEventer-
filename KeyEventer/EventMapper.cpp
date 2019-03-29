@@ -2,9 +2,10 @@
 #include "EventMapper.h"
 
 
-EventMapper::EventMapper(std::shared_ptr<ISettings> settings, std::shared_ptr<IExecuter> executer, std::function<std::shared_ptr<ISystemController>()> systemControllerGetter)
+EventMapper::EventMapper(std::shared_ptr<ISettings> settings, std::shared_ptr<IExecuter> executer, std::shared_ptr<IRepeatableKeySender> keySender, std::function<std::shared_ptr<ISystemController>()> systemControllerGetter)
 	: _settings(settings)
 	, _executer(executer)
+	, _keySender(keySender)
 	, _systemController(systemControllerGetter)
 {
 }
@@ -22,10 +23,12 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 	switch (mouseAdditionalButtonState)
 	{
 	case WheelLeft:
-		_executer->SendKey(VK_LEFT);
+		//_executer->SendKey(VK_LEFT);
+		_systemController()->SetStrefDirection(false);
 		break;
 	case WheelRight:
-		_executer->SendKey(VK_RIGHT);
+		//_executer->SendKey(VK_RIGHT);
+		_systemController()->SetStrefDirection(true);
 		break;
 	default:;
 	}
@@ -46,9 +49,13 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 	default:;
 	}
 	if (_systemController()->GetIsForwardStref())
-		_executer->SendKey(VK_RIGHT);
-	if (_systemController()->GetIsBackwardStref())
-		_executer->SendKey(VK_LEFT);
+		//_executer->SendKey(VK_RIGHT);
+		_keySender->SetSendingKeys({ VK_RIGHT });
+	else if (_systemController()->GetIsBackwardStref())
+		//_executer->SendKey(VK_LEFT);
+		_keySender->SetSendingKeys({ VK_LEFT });
+	else 
+		_keySender->SetSendingKeys({});
 }
 
 void EventMapper::raiseTrayEvent(TrayEvent trayEvent)

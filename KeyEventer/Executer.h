@@ -7,7 +7,7 @@ public:
 	Executer(std::shared_ptr<ISettings> settings, std::function<std::shared_ptr<ISystemController>()> systemControllerGetter);
 	~Executer();
 
-	void SendKey(char virtualKey) override;
+	//void SendKey(char virtualKey) override;
 	void SwapMouseButtons() override;
 	void ExitApplication() override;
 	void SwitchMouseWheelTiltMode() override;

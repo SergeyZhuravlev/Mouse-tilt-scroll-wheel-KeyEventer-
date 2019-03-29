@@ -11,12 +11,12 @@ Executer::~Executer()
 {
 }
 
-void Executer::SendKey(char virtualKey)
+/*void Executer::SendKey(char virtualKey)
 {
 	keybd_event(virtualKey, 0, 0, 0);
 	Sleep(100);
 	keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
-}
+}*/
 
 void Executer::SwapMouseButtons()
 {

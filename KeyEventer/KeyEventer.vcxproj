@@ -91,6 +91,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,6 +107,8 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -121,6 +125,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,6 +145,8 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,24 +159,29 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Disposable.h" />
     <ClInclude Include="EventMapper.h" />
     <ClInclude Include="Executer.h" />
     <ClInclude Include="IEventer.h" />
     <ClInclude Include="IEventMapper.h" />
     <ClInclude Include="IExecuter.h" />
+    <ClInclude Include="IRepeatableKeySender.h" />
     <ClInclude Include="ISettings.h" />
     <ClInclude Include="ISystemController.h" />
     <ClInclude Include="ISystemEventer.h" />
+    <ClInclude Include="ITimer.h" />
     <ClInclude Include="KeyboardEventer.h" />
     <ClInclude Include="KeyEventer.h" />
     <ClInclude Include="KeyEventerApp.h" />
     <ClInclude Include="MouseEventer.h" />
+    <ClInclude Include="RepeatableKeySender.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SystemController.h" />
     <ClInclude Include="SystemEventer.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="TrayEventer.h" />
     <ClInclude Include="TrayEvents.h" />
   </ItemGroup>
@@ -185,6 +198,7 @@
     <ClCompile Include="KeyEventer.cpp" />
     <ClCompile Include="KeyEventerApp.cpp" />
     <ClCompile Include="MouseEventer.cpp" />
+    <ClCompile Include="RepeatableKeySender.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -194,6 +208,7 @@
     </ClCompile>
     <ClCompile Include="SystemController.cpp" />
     <ClCompile Include="SystemEventer.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TrayEventer.cpp" />
   </ItemGroup>
   <ItemGroup>
