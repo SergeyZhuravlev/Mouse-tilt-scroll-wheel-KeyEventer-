@@ -20,6 +20,7 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 		return;
 	if (!_systemController()->GetMouseWheelTiltMode())
 		return;
+	if(_settings->GetTiltModeEnabled())
 	switch (mouseAdditionalButtonState)
 	{
 	case WheelLeft:
@@ -32,6 +33,7 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 		break;
 	default:;
 	}
+	if (_settings->GetLegacyModeEnabled())
 	switch (mouseButtonState)
 	{
 	case RI_MOUSE_WHEEL:

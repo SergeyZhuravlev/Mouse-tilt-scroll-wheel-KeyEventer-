@@ -1,6 +1,13 @@
 #include "stdafx.h"
 #include "RepeatableKeySender.h"
 
+RepeatableKeySender::RepeatableKeySender(DWORD periodInMilliseconds, DWORD keySpanInMilliseconds, std::function<HWND()>&& windowHandleGetter)
+	: Timer(periodInMilliseconds, std::move(windowHandleGetter))
+	, _keySpanInMilliseconds(keySpanInMilliseconds)
+{
+
+}
+
 void RepeatableKeySender::SetSendingKeys(Keys && keys)
 {
 	std::lock_guard lock(_taskProtector);
@@ -21,6 +28,6 @@ void RepeatableKeySender::Handler()
 void RepeatableKeySender::SendKey(char virtualKey)
 {
 	keybd_event(virtualKey, 0, 0, 0);
-	Sleep(100);
+	Sleep(_keySpanInMilliseconds);
 	keybd_event(virtualKey, 0, KEYEVENTF_KEYUP, 0);
 }

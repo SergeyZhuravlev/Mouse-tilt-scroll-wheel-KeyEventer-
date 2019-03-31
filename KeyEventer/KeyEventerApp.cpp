@@ -9,10 +9,10 @@
 #include "EventMapper.h"
 #include "RepeatableKeySender.h"
 
-KeyEventerApp::KeyEventerApp():
-	_settings(std::make_shared<Settings>()),
+KeyEventerApp::KeyEventerApp(HINSTANCE hInstance):
+	_settings(std::make_shared<Settings>(hInstance)),
 	_executer(std::make_shared<Executer>(_settings, std::bind(&KeyEventerApp::SystemControllerGetter, this))),
-	_keySender(std::make_shared<RepeatableKeySender>(400, [this] {return this->SystemControllerGetter()->ApplicationHWindow(); })),
+	_keySender(std::make_shared<RepeatableKeySender>(_settings->GetKeyRepeatPeriodInMilliseconds(), _settings->GetKeySpanInMilliseconds(), [this] {return this->SystemControllerGetter()->ApplicationHWindow(); })),
 	_eventMapper(std::make_shared<EventMapper>(_settings, _executer, _keySender, std::bind(&KeyEventerApp::SystemControllerGetter, this))),
 	_keyboardEventer(std::make_shared<KeyboardEventer>(_settings, _eventMapper)),
 	_systemEventer(std::make_shared<SystemEventer>(_settings, _eventMapper)),
@@ -28,7 +28,7 @@ int KeyEventerApp::Execute()
 {
 	if (IsAppDuplicate())
 		return 0;
-	_settings->Load();
+	//_settings->Load();
 	if (!_trayEventer->SetHooks())
 		return -1;
 	if(!_systemEventer->SetHooks())

@@ -9,7 +9,7 @@
 class KeyEventerApp
 {
 public:
-	KeyEventerApp();
+	KeyEventerApp(HINSTANCE hInstance);
 	~KeyEventerApp();
 	int Execute();
 
