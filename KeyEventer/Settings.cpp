@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <boost\property_tree\ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include "Settings.h"
 #include "Windows.h"
 #include <algorithm>
@@ -10,6 +11,7 @@ Settings::Settings(HINSTANCE hInstance)
 	: _hInstance(hInstance)
 {
 	Load();
+	MakeDefaultFile();
 }
 
 void Settings::Load() 
@@ -17,8 +19,8 @@ void Settings::Load()
 	auto path = SettingsPath();
 	if (!std::filesystem::exists(path))
 		return;
-	auto jsonData = LoadFile(path);
-	boost::property_tree::ptree pt(jsonData);
+	boost::property_tree::ptree pt;
+	boost::property_tree::read_json(path, pt);
 	KeyRepeatPeriodInMilliseconds = pt.get_optional<UINT>("KeyRepeatPeriodInMilliseconds").get_value_or(KeyRepeatPeriodInMilliseconds);
 	KeySpanInMilliseconds = pt.get_optional<UINT>("KeySpanInMilliseconds").get_value_or(KeySpanInMilliseconds);
 	TiltModeEnabled = pt.get_optional<bool>("TiltModeEnabled").get_value_or(TiltModeEnabled);
@@ -29,16 +31,7 @@ Settings::~Settings()
 {
 }
 
-std::string Settings::LoadFile(const std::string& path)
-{
-	std::stringstream result;
-	std::ifstream file;
-	file.open(path, std::ios::in);
-	result << file.rdbuf();
-	return result.str();
-}
-
-std::string Settings::ExeDirectory()
+std::string Settings::ExeDirectory() const
 {
 	std::string result("");
 	auto bufferSize = GetModuleFileNameA(nullptr, result.data(), 0);
@@ -55,7 +48,7 @@ std::string Settings::ExeDirectory()
 	return result;
 }
 
-std::string Settings::SettingsPath()
+std::string Settings::SettingsPath() const
 {
 	return ExeDirectory()+"\\KeyEventerSettings.json";
 }
@@ -78,4 +71,33 @@ bool Settings::GetTiltModeEnabled() const
 bool Settings::GetLegacyModeEnabled() const
 {
 	return LegacyModeEnabled;
+}
+
+namespace
+{
+	boost::property_tree::ptree PrepareDefaultFile(const ISettings* settings)
+	{
+		boost::property_tree::ptree pt;
+		pt.add("KeyRepeatPeriodInMilliseconds", settings->GetKeyRepeatPeriodInMilliseconds());
+		pt.add("KeySpanInMilliseconds", settings->GetKeySpanInMilliseconds());
+		pt.add("TiltModeEnabled", settings->GetTiltModeEnabled());
+		pt.add("LegacyModeEnabled", settings->GetLegacyModeEnabled());
+		return pt;
+	}
+}
+
+void Settings::MakeDefaultFile() const
+{
+	auto path = SettingsPath();
+	if (!std::filesystem::exists(path))
+		return;
+	auto pt = PrepareDefaultFile(this);
+	try
+	{
+		boost::property_tree::write_json(path, pt);
+	}
+	catch(...)
+	{
+
+	}
 }

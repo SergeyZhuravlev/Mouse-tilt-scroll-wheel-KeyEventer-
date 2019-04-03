@@ -12,11 +12,11 @@ public:
 	bool GetLegacyModeEnabled() const override;
 
 private:
-	std::string ExeDirectory();
-	std::string SettingsPath();
+	std::string ExeDirectory() const;
+	std::string SettingsPath() const;
 
 	void Load() /*override*/;
-	std::string Settings::LoadFile(const std::string& path);
+	void MakeDefaultFile() const;
 
 	HINSTANCE _hInstance;
 
