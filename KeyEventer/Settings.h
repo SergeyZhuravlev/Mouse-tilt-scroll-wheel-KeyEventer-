@@ -20,7 +20,7 @@ private:
 
 	HINSTANCE _hInstance;
 
-	UINT KeyRepeatPeriodInMilliseconds = 400;
+	UINT KeyRepeatPeriodInMilliseconds = 100;
 	UINT KeySpanInMilliseconds = 100;
 	bool TiltModeEnabled = true;
 	bool LegacyModeEnabled = true;

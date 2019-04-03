@@ -34,12 +34,13 @@ Settings::~Settings()
 std::string Settings::ExeDirectory() const
 {
 	std::string result("");
-	auto bufferSize = GetModuleFileNameA(nullptr, result.data(), 0);
-	if(bufferSize <= 0)
-		throw std::runtime_error("Can't get length info about current module");
-	result.resize(bufferSize + 1);
-	if (GetModuleFileNameA(nullptr, result.data(), result.size()) <= 0)
-		throw std::runtime_error("Can't get info about current module");
+	DWORD bufferSize = 0;
+	do {
+		result.resize(result.size() + MAX_PATH);
+		bufferSize = GetModuleFileName(0, result.data(), result.size());
+	} while (bufferSize >= result.size());
+
+	result.resize(bufferSize);
 	auto pos = result.find_last_of("\\");
 	if (pos == std::string::npos)
 		throw std::runtime_error("Can't get info about current module. Wrong path");
@@ -89,7 +90,7 @@ namespace
 void Settings::MakeDefaultFile() const
 {
 	auto path = SettingsPath();
-	if (!std::filesystem::exists(path))
+	if (std::filesystem::exists(path))
 		return;
 	auto pt = PrepareDefaultFile(this);
 	try
