@@ -3,7 +3,12 @@
 
 struct IRepeatableKeySender: public virtual ITimer
 {
-	using Keys = std::vector<char>;
+	struct Key
+	{
+		char key;
+		bool singleSending;
+	};
+	using Keys = std::vector<Key>;
 	virtual void SetSendingKeys(Keys&& keys) = 0;
 	virtual ~IRepeatableKeySender() = default;
 };

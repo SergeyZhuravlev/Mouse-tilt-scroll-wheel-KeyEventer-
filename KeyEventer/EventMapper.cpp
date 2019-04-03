@@ -28,13 +28,13 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 	case WheelLeft:
 		//_executer->SendKey(VK_LEFT);
 		_systemController()->SetStrafingDirection(false);
-		//_systemController()->SetStrafingEnabled(true, true);
-		break;
+		_keySender->SetSendingKeys({ { VK_LEFT, true } });
+		return;
 	case WheelRight:
 		//_executer->SendKey(VK_RIGHT);
 		_systemController()->SetStrafingDirection(true);
-		//_systemController()->SetStrafingEnabled(true, true);
-		break;
+		_keySender->SetSendingKeys({ { VK_RIGHT, true } });
+		return;
 	/*case WheelCenter:
 		_systemController()->SetStrafingEnabled(false);*/
 	default:;
@@ -58,10 +58,10 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 	}
 	if (_systemController()->GetIsForwardStrafing())
 		//_executer->SendKey(VK_RIGHT);
-		_keySender->SetSendingKeys({ VK_RIGHT });
+		_keySender->SetSendingKeys({ { VK_RIGHT } });
 	else if (_systemController()->GetIsBackwardStrafing())
 		//_executer->SendKey(VK_LEFT);
-		_keySender->SetSendingKeys({ VK_LEFT });
+		_keySender->SetSendingKeys({ { VK_LEFT } });
 	else 
 		_keySender->SetSendingKeys({});
 }

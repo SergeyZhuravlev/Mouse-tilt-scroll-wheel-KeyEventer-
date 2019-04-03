@@ -20,9 +20,13 @@ void RepeatableKeySender::Handler()
 	{
 		std::lock_guard lock(_taskProtector);
 		keysForSending = _keysForSending;
+		_keysForSending.erase(std::remove_if(_keysForSending.begin(), _keysForSending.end(), [](const auto& keyDescription) 
+		{
+			return keyDescription.singleSending; 
+		}), _keysForSending.end());
 	}
-	for (auto key : keysForSending)
-		SendKey(key);
+	for (auto keyDescription : keysForSending)
+		SendKey(keyDescription.key);
 }
 
 void RepeatableKeySender::SendKey(char virtualKey)
