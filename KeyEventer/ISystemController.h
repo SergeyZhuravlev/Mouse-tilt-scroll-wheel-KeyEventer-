@@ -9,9 +9,9 @@ public:
 	virtual HINSTANCE ApplicationHInstance() = 0;
 	virtual void SetMouseWheelTiltMode(bool arrowKeys) = 0;
 	virtual bool GetMouseWheelTiltMode() = 0;
-	virtual void SetStrefEnabled(bool enabled) = 0;
-	virtual void SetStrefDirection(bool forward) = 0;
-	virtual bool GetIsForwardStref() const = 0;
-	virtual bool GetIsBackwardStref() const = 0;
+	virtual void SetStrafingEnabled(bool enabled) = 0;
+	virtual void SetStrafingDirection(bool forward) = 0;
+	virtual bool GetIsForwardStrafing() const = 0;
+	virtual bool GetIsBackwardStrafing() const = 0;
 };
 

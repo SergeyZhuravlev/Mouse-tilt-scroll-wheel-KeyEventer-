@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EventMapper.h"
+#include <string>
 
 
 EventMapper::EventMapper(std::shared_ptr<ISettings> settings, std::shared_ptr<IExecuter> executer, std::shared_ptr<IRepeatableKeySender> keySender, std::function<std::shared_ptr<ISystemController>()> systemControllerGetter)
@@ -20,40 +21,45 @@ void EventMapper::raiseMouseEvent(MouseAdditionalButtonsState mouseAdditionalBut
 		return;
 	if (!_systemController()->GetMouseWheelTiltMode())
 		return;
+	//OutputDebugString((std::to_string(mouseAdditionalButtonState)+"\r\n").c_str());
 	if(_settings->GetTiltModeEnabled())
 	switch (mouseAdditionalButtonState)
 	{
 	case WheelLeft:
 		//_executer->SendKey(VK_LEFT);
-		_systemController()->SetStrefDirection(false);
+		_systemController()->SetStrafingDirection(false);
+		//_systemController()->SetStrafingEnabled(true, true);
 		break;
 	case WheelRight:
 		//_executer->SendKey(VK_RIGHT);
-		_systemController()->SetStrefDirection(true);
+		_systemController()->SetStrafingDirection(true);
+		//_systemController()->SetStrafingEnabled(true, true);
 		break;
+	/*case WheelCenter:
+		_systemController()->SetStrafingEnabled(false);*/
 	default:;
 	}
 	if (_settings->GetLegacyModeEnabled())
 	switch (mouseButtonState)
 	{
 	case RI_MOUSE_WHEEL:
-		if (_systemController()->GetIsForwardStref() && mouseWheelState < 0)
-			_systemController()->SetStrefDirection(false);
-		if (_systemController()->GetIsBackwardStref() && mouseWheelState > 0)
-			_systemController()->SetStrefDirection(true);
+		if (_systemController()->GetIsForwardStrafing() && mouseWheelState < 0)
+			_systemController()->SetStrafingDirection(false);
+		if (_systemController()->GetIsBackwardStrafing() && mouseWheelState > 0)
+			_systemController()->SetStrafingDirection(true);
 		break;
 	case RI_MOUSE_MIDDLE_BUTTON_DOWN:
-		_systemController()->SetStrefEnabled(true);
+		_systemController()->SetStrafingEnabled(true);
 		break;
 	case RI_MOUSE_MIDDLE_BUTTON_UP:
-		_systemController()->SetStrefEnabled(false);
+		_systemController()->SetStrafingEnabled(false);
 		break;
 	default:;
 	}
-	if (_systemController()->GetIsForwardStref())
+	if (_systemController()->GetIsForwardStrafing())
 		//_executer->SendKey(VK_RIGHT);
 		_keySender->SetSendingKeys({ VK_RIGHT });
-	else if (_systemController()->GetIsBackwardStref())
+	else if (_systemController()->GetIsBackwardStrafing())
 		//_executer->SendKey(VK_LEFT);
 		_keySender->SetSendingKeys({ VK_LEFT });
 	else 
